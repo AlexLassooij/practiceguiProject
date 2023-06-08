@@ -55,6 +55,7 @@ QtGuiPractice::QtGuiPractice(QWidget *parent) : QMainWindow(parent)
 
 
 
+
 	if (!query.exec(sql))
 		QMessageBox::critical(0, QObject::tr("Error: create ProjectInfo table."), query.lastError().text());
 
