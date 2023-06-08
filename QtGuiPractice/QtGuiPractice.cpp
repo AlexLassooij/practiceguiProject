@@ -19,6 +19,10 @@ QtGuiPractice::QtGuiPractice(QWidget *parent)
 
 	saveButton->setGeometry(QRect(QPoint(100, 100), QSize(200, 50)));*/
 	// this->setCentralWidget(ui.sampleTextBox);
+
+	setWindowTitle(QString("Qt GUI Practice"));
+
+
 }
 
 void QtGuiPractice::handleSave()
@@ -31,6 +35,7 @@ void QtGuiPractice::handleSave()
 
 
 }
+
 
 void QtGuiPractice::configStudentDB(QSqlDatabase *studentDB)
 {
