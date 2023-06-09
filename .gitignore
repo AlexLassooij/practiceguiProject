@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Debug Files
+QtGuiPractice/GeneratedFiles/
+QtGuiPractice/Debug/
+QtGuiPractice.VC.VC.opendb
+QtGuiPractice/project_records.hss

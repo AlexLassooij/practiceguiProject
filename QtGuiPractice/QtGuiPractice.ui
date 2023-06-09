@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>800</height>
    </rect>
   </property>
   <property name="cursor">
@@ -23,62 +23,62 @@
       <x>10</x>
       <y>0</y>
       <width>791</width>
-      <height>521</height>
+      <height>553</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="projectNameLabel">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>30</height>
+         <height>15</height>
         </size>
        </property>
        <property name="text">
-        <string>Student ID</string>
+        <string>Project Name</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QTextEdit" name="studentIDBox">
+      <widget class="QTextEdit" name="projectNameText">
        <property name="maximumSize">
         <size>
-         <width>16777215</width>
-         <height>40</height>
+         <width>400</width>
+         <height>30</height>
         </size>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="studentNameLabel">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>30</height>
+         <height>15</height>
         </size>
        </property>
        <property name="text">
-        <string>Name</string>
+        <string>Student Name</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QTextEdit" name="nameBox">
+      <widget class="QTextEdit" name="studentNameText">
        <property name="maximumSize">
         <size>
-         <width>16777215</width>
-         <height>40</height>
+         <width>400</width>
+         <height>30</height>
         </size>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="emailLabel">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>30</height>
+         <height>15</height>
         </size>
        </property>
        <property name="text">
@@ -87,11 +87,57 @@
       </widget>
      </item>
      <item>
-      <widget class="QTextEdit" name="emailBox">
+      <widget class="QTextEdit" name="emailText">
+       <property name="maximumSize">
+        <size>
+         <width>400</width>
+         <height>30</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="versionLabel">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>15</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Version</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTextEdit" name="versionText">
+       <property name="maximumSize">
+        <size>
+         <width>400</width>
+         <height>30</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="descriptionLabel">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>15</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Description</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTextEdit" name="descriptionText">
+       <property name="maximumSize">
+        <size>
+         <width>780</width>
+         <height>140</height>
         </size>
        </property>
       </widget>

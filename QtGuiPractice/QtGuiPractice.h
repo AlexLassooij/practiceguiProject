@@ -22,12 +22,19 @@ public:
 private:
     Ui::QtGuiPracticeClass ui;
 	QString currentFile = "";
-	QSqlDatabase studentDB;
-
+	QSqlDatabase HSSDb;
+	QTextEdit *projectNameText;
+	QTextEdit *studentNameText;
+	QTextEdit *versionText;
+	QTextEdit *emailText;
+	QTextEdit *modelTypeText;
+	QTextEdit *descriptionText;
+	
 
 
 private slots:
+	void configSlots();
 	void handleSave();
-	void configStudentDB(QSqlDatabase*);
+	void initDb();
 
 };
