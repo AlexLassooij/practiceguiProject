@@ -1,7 +1,6 @@
 #pragma once
 #include <qcustomplot.h>
 #include "ui_QtGuiPractice.h"
-#include <studentDataModel.h>
 #include <iostream>
 #include <string>
 #include <algorithm>
