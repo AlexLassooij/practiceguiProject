@@ -3,12 +3,19 @@
 // provide main window widget
 #include <QtWidgets/QMainWindow>
 #include "ui_QtGuiPractice.h"
+#include "studentplotcontroller.h"
+#include <iostream>
+
+
+
 
 #include <QFile>
 #include <QFileDialog>
 #include <QTextStream>
 #include <QtSql>
 #include <QSqlDatabase>
+#include <QFileDialog>
+#include <QMessageBox>
 
 class QtGuiPractice : public QMainWindow
 {
@@ -21,20 +28,35 @@ public:
 	// ui form, included in .pro file 
 private:
     Ui::QtGuiPracticeClass ui;
-	QString currentFile = "";
 	QSqlDatabase HSSDb;
-	QTextEdit *projectNameText;
+	/*QTextEdit *projectNameText;
 	QTextEdit *studentNameText;
 	QTextEdit *versionText;
 	QTextEdit *emailText;
 	QTextEdit *modelTypeText;
-	QTextEdit *descriptionText;
+	QTextEdit *descriptionText;*/
+
+	StudentPlotController spController;
+
+	void configSlots();
+	void createActions();
+	void handleSave();
+	void setUpPlotController();
+	void initDb();
+	void setBarGraph();
 	
 
 
 private slots:
-	void configSlots();
-	void handleSave();
-	void initDb();
+	
+	void actionOpen_triggered();
+	void actionExport_triggered();
+	void actionSave_triggered();
+	void actionQuit_triggered();
+	void actionCopy_triggered();
+	void actionPaste_triggered();
+	void actionCut_triggered();
+
+
 
 };

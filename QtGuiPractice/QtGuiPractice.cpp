@@ -1,6 +1,5 @@
 #include "QtGuiPractice.h"
-#include <iostream>
-#include <QMessageBox>
+
 
 // will contain functionality of app 
 QtGuiPractice::QtGuiPractice(QWidget *parent) : QMainWindow(parent)
@@ -8,9 +7,11 @@ QtGuiPractice::QtGuiPractice(QWidget *parent) : QMainWindow(parent)
 	ui.setupUi(this);
 
 	configSlots();
+	createActions();
 	initDb();
 
 	setWindowTitle(QString("Qt GUI Practice"));
+	setUpPlotController();
 }
 
 // config UI elements
@@ -18,7 +19,37 @@ void QtGuiPractice::configSlots()
 {
 	ui.emailText->setPlaceholderText("Enter as <CWL@student.ubc.ca");
 	ui.descriptionText->setPlaceholderText("Optional");
+
+}
+
+
+// create actions
+
+void QtGuiPractice::createActions()
+{
+	// file actions
+	connect(ui.actionSave, SIGNAL(triggered()), this, SLOT(actionSave_triggered()));
+	connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(actionOpen_triggered()));
+	connect(ui.actionExport, SIGNAL(triggered()), this, SLOT(actionExport_triggered()));
+	connect(ui.actionQuit, SIGNAL(triggered()), this, SLOT(actionQuit_triggered()));
+
+	// edit actions
+	connect(ui.actionCopy, SIGNAL(triggered()), this, SLOT(actionCopy_triggered()));
+	connect(ui.actionPaste, SIGNAL(triggered()), this, SLOT(actionPaste_triggered()));
+	connect(ui.actionCut, SIGNAL(triggered()), this, SLOT(actionCut_triggered()));
+
 	connect(ui.savePushButton, &QPushButton::released, this, &QtGuiPractice::handleSave);
+}
+
+void QtGuiPractice::setUpPlotController()
+{
+	spController = StudentPlotController(&ui, ui.studentplot);
+	spController.setBackground();
+	/*connect(ui.districtComboBox, currentIndexChanged(-1), this, &StudentPlotController::setBarGraph);
+	connect(ui.gradeComboBox, SIGNAL(currentIndexChanged(-1)), this, SLOT(spController.setBarGraph()));*/
+	//connect(ui.loadDataButton, &QPushButton::released, this, &QtGuiPractice::setBarGraph);
+	connect(ui.loadDataButton, &QPushButton::released, this, &QtGuiPractice::setBarGraph);
+
 }
 
 void QtGuiPractice::initDb() {
@@ -56,6 +87,7 @@ void QtGuiPractice::initDb() {
 
 }
 
+
 void QtGuiPractice::handleSave()
 {
 	QString projectName = ui.projectNameText->toPlainText();
@@ -86,6 +118,51 @@ void QtGuiPractice::handleSave()
 		ui.savePushButton->setText("Saved Data Successfully");
 		qDebug() << "Project info has been stored successfully" << endl;
 	}
+}
+
+void QtGuiPractice::actionSave_triggered()
+{
+	qDebug() << "saved" << endl;
+
+}
+
+void QtGuiPractice::actionOpen_triggered()
+{
+	// create a file dialog 
+	// QString fileName = QFileDialog::getOpenFileName(this, "Import Student Data", "C://", "Database file (*.db)");
+	QString fileName = "C:/Users/alexl/Documents/WorkLearn/Codebase/Training/Database/practice.db";
+	spController.setDatabasePath(fileName);
+}
+
+void QtGuiPractice::actionExport_triggered()
+{
+
+}
+
+void QtGuiPractice::actionQuit_triggered()
+{
+
+}
+
+void QtGuiPractice::actionCopy_triggered()
+{
+	// ui->
+}
+
+void QtGuiPractice::actionPaste_triggered()
+{
+	// ui->
+}
+
+void QtGuiPractice::actionCut_triggered()
+{
+	// ui->
+}
+
+void QtGuiPractice::setBarGraph()
+{
+	qDebug() << "test" << endl;
+	spController.setBarGraph();
 }
 
 // QtGuiPractice::QtGuiPractice()

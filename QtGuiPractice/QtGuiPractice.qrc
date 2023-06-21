@@ -1,3 +1,8 @@
 <RCC>
-    <qresource prefix="/QtGuiPractice"/>
+    <qresource prefix="/Resources">
+        <file>Resources/icons8-open-file-30.png</file>
+        <file>Resources/icons8-save-30.png</file>
+        <file>Resources/icons8-quit-50.png</file>
+        <file>Resources/icons8-export-30.png</file>
+    </qresource>
 </RCC>
