@@ -129,8 +129,8 @@ void QtGuiPractice::actionSave_triggered()
 void QtGuiPractice::actionOpen_triggered()
 {
 	// create a file dialog 
-	// QString fileName = QFileDialog::getOpenFileName(this, "Import Student Data", "C://", "Database file (*.db)");
-	QString fileName = "C:/Users/alexl/Documents/WorkLearn/Codebase/Training/Database/practice.db";
+	QString fileName = QFileDialog::getOpenFileName(this, "Import Student Data", "C://", "Database file (*.db)");
+	// QString fileName = "C:/Users/alexl/Documents/WorkLearn/Codebase/Training/Database/practice.db";
 	spController.setDatabasePath(fileName);
 }
 
