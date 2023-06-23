@@ -10,7 +10,7 @@ QtGuiPractice::QtGuiPractice(QWidget *parent) : QMainWindow(parent)
 	createActions();
 	initDb();
 
-	setWindowTitle(QString("Qt GUI Practice"));
+	setWindowTitle(QString("Qt GUI Practice 20230622"));
 	setUpPlotController();
 
 }
