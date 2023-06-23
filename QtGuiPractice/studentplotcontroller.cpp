@@ -3,6 +3,7 @@
 StudentPlotController::StudentPlotController(Ui::QtGuiPracticeClass *ui, QCustomPlot *studentPlot)
 {
 	this->studentPlot = studentPlot;	
+
 	this->ui = ui;
 }
 

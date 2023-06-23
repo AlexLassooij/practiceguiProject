@@ -12,6 +12,7 @@ QtGuiPractice::QtGuiPractice(QWidget *parent) : QMainWindow(parent)
 
 	setWindowTitle(QString("Qt GUI Practice"));
 	setUpPlotController();
+
 }
 
 // config UI elements
