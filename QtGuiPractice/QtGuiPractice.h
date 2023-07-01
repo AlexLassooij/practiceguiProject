@@ -2,7 +2,7 @@
 
 // provide main window widget
 #include <QtWidgets/QMainWindow>
-#include "ui_QtGuiPractice.h"
+#include "QtGuiPracticeUiConfigurer.h"
 #include "studentplotcontroller.h"
 #include <iostream>
 
@@ -17,6 +17,10 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+#define MAIN_WINDOW_WIDTH 750
+#define MAIN_WINDOW_HEIGHT 800
+
+
 class QtGuiPractice : public QMainWindow
 {
 	// special Qt Mac
@@ -27,28 +31,17 @@ public:
     QtGuiPractice(QWidget *parent = Q_NULLPTR);
 	// ui form, included in .pro file 
 private:
-    Ui::QtGuiPracticeClass ui;
+	Ui_QtGuiPracticeUiConfigurer ui;
 	QSqlDatabase HSSDb;
-	/*QTextEdit *projectNameText;
-	QTextEdit *studentNameText;
-	QTextEdit *versionText;
-	QTextEdit *emailText;
-	QTextEdit *modelTypeText;
-	QTextEdit *descriptionText;*/
-
 	StudentPlotController spController;
 
-	void configSlots();
-	void createActions();
-	void handleSave();
+	void setActionHandling();
 	void setUpPlotController();
 	void initDb();
+	void saveStudentData();
 	void setBarGraph();
-	
-
 
 private slots:
-	
 	void actionOpen_triggered();
 	void actionExport_triggered();
 	void actionSave_triggered();
@@ -56,7 +49,4 @@ private slots:
 	void actionCopy_triggered();
 	void actionPaste_triggered();
 	void actionCut_triggered();
-
-
-
 };

@@ -1,6 +1,6 @@
 #include <studentplotcontroller.h>
 
-StudentPlotController::StudentPlotController(Ui::QtGuiPracticeClass *ui, QCustomPlot *studentPlot)
+StudentPlotController::StudentPlotController(QtGuiPracticeUiConfigurer *ui, QCustomPlot *studentPlot)
 {
 	this->studentPlot = studentPlot;	
 
@@ -14,7 +14,6 @@ void StudentPlotController::setBackground()
 	gradient.setColorAt(0.38, QColor(60, 180, 180));
 	gradient.setColorAt(1, QColor(35, 105, 105));
 	studentPlot->setBackground(QBrush(gradient));
-
 }
 
 void StudentPlotController::setDatabasePath(QString databasePath)

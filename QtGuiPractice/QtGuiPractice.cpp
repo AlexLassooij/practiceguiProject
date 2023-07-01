@@ -4,10 +4,10 @@
 // will contain functionality of app 
 QtGuiPractice::QtGuiPractice(QWidget *parent) : QMainWindow(parent)
 {
-	ui.setupUi(this);
+	// ui = new QtGuiPracticeUiConfigurer();
+	ui.setUpUi(this);
 
-	configSlots();
-	createActions();
+	setActionHandling();
 	initDb();
 
 	setWindowTitle(QString("Qt GUI Practice 20230622"));
@@ -15,18 +15,9 @@ QtGuiPractice::QtGuiPractice(QWidget *parent) : QMainWindow(parent)
 
 }
 
-// config UI elements
-void QtGuiPractice::configSlots() 
-{
-	ui.emailText->setPlaceholderText("Enter as <CWL@student.ubc.ca");
-	ui.descriptionText->setPlaceholderText("Optional");
 
-}
-
-
-// create actions
-
-void QtGuiPractice::createActions()
+// configure how actions are handled
+void QtGuiPractice::setActionHandling()
 {
 	// file actions
 	connect(ui.actionSave, SIGNAL(triggered()), this, SLOT(actionSave_triggered()));
@@ -39,7 +30,7 @@ void QtGuiPractice::createActions()
 	connect(ui.actionPaste, SIGNAL(triggered()), this, SLOT(actionPaste_triggered()));
 	connect(ui.actionCut, SIGNAL(triggered()), this, SLOT(actionCut_triggered()));
 
-	connect(ui.savePushButton, &QPushButton::released, this, &QtGuiPractice::handleSave);
+	connect(ui.savePushButton, &QPushButton::released, this, &QtGuiPractice::saveStudentData);
 }
 
 void QtGuiPractice::setUpPlotController()
@@ -89,7 +80,7 @@ void QtGuiPractice::initDb() {
 }
 
 
-void QtGuiPractice::handleSave()
+void QtGuiPractice::saveStudentData()
 {
 	QString projectName = ui.projectNameText->toPlainText();
 	QString studentName = ui.studentNameText->toPlainText();
@@ -147,17 +138,17 @@ void QtGuiPractice::actionQuit_triggered()
 
 void QtGuiPractice::actionCopy_triggered()
 {
-	// ui->
+	// ui.
 }
 
 void QtGuiPractice::actionPaste_triggered()
 {
-	// ui->
+	// ui.
 }
 
 void QtGuiPractice::actionCut_triggered()
 {
-	// ui->
+	// ui.
 }
 
 void QtGuiPractice::setBarGraph()

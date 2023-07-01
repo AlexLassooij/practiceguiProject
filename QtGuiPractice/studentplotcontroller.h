@@ -1,6 +1,6 @@
 #pragma once
 #include <qcustomplot.h>
-#include "ui_QtGuiPractice.h"
+#include "QtGuiPracticeUiConfigurer.h"
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -19,9 +19,9 @@ class StudentPlotController
 
 	// widget initialized with no parents
 public:
-	StudentPlotController(Ui::QtGuiPracticeClass *ui = Q_NULLPTR, QCustomPlot *studentPlot = Q_NULLPTR);
+	StudentPlotController(Ui_QtGuiPracticeUiConfigurer *ui = Q_NULLPTR, QCustomPlot *studentPlot = Q_NULLPTR);
 private:
-	Ui::QtGuiPracticeClass *ui;
+	Ui_QtGuiPracticeUiConfigurer *ui;
 	QCustomPlot *studentPlot;
 	QString databasePath;
 	QSqlDatabase StudentDb;
