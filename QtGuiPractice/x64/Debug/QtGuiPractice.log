@@ -1,14 +1,3 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppClean.targets(76,5): warning : The process cannot access the file 'c:\alex\new07\alexlassooij\practiceguiproject\x64\debug\qtguipractice.pdb' because it is being used by another process.
-  Moc'ing QtGuiPractice.h...
-  Moc'ing qcustomplot.h...
-  Rcc'ing QtGuiPractice.qrc...
-  moc_qcustomplot.cpp
-  moc_QtGuiPractice.cpp
-  main.cpp
-  qcustomplot.cpp
-  QtGuiPractice.cpp
-  studentplotcontroller.cpp
-  Generating Code...
-  qrc_QtGuiPractice.cpp
+﻿  QtGuiPractice.cpp
   QtGuiPractice.vcxproj -> C:\Alex\New07\AlexLassooij\practiceguiProject\x64\Debug\QtGuiPractice.exe
   QtGuiPractice.vcxproj -> C:\Alex\New07\AlexLassooij\practiceguiProject\x64\Debug\QtGuiPractice.pdb (Full PDB)

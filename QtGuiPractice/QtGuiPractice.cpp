@@ -337,7 +337,7 @@ void QtGuiPractice::setUpUi()
 		this->setObjectName(QStringLiteral("this"));
 	// set size of the main window 
 	this->resize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
-	this->setCursor(QCursor(Qt::OpenHandCursor));
+	// this->setCursor(QCursor(Qt::OpenHandCursor));
 
 	// define main font 
 	mainFont.setFamily(QStringLiteral("Segoe UI Semibold"));
