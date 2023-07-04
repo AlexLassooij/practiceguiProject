@@ -1,3 +1,36 @@
-﻿  QtGuiPractice.cpp
-  QtGuiPractice.vcxproj -> C:\Alex\practiceguiProject-main\practiceguiProject\x64\Debug\QtGuiPractice.exe
-  QtGuiPractice.vcxproj -> C:\Alex\practiceguiProject-main\practiceguiProject\x64\Debug\QtGuiPractice.pdb (Full PDB)
+﻿  Moc'ing QtGuiPractice.h...
+  Uic'ing QtGuiPractice.ui...
+  File 'C:\Alex\New07\AlexLassooij\practiceguiProject\QtGuiPractice\QtGuiPractice.ui' is not valid
+  Moc'ing qcustomplot.h...
+  Rcc'ing QtGuiPractice.qrc...
+  moc_qcustomplot.cpp
+  moc_QtGuiPractice.cpp
+  main.cpp
+  qcustomplot.cpp
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xutility(2372): warning C4996: 'std::copy::_Unchecked_iterators::_Deprecate': Call to 'std::copy' with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xutility(2372): note: see declaration of 'std::copy::_Unchecked_iterators::_Deprecate'
+  qcustomplot.cpp(21772): note: see reference to function template instantiation '_OutIt *std::copy<const QCPGraphData*,QCPGraphData*>(_InIt,_InIt,_OutIt)' being compiled
+          with
+          [
+              _OutIt=QCPGraphData *,
+              _InIt=const QCPGraphData *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xutility(2568): warning C4996: 'std::copy_backward::_Unchecked_iterators::_Deprecate': Call to 'std::copy_backward' with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xutility(2568): note: see declaration of 'std::copy_backward::_Unchecked_iterators::_Deprecate'
+  c:\alex\new07\alexlassooij\practiceguiproject\qtguipractice\qcustomplot.h(3401): note: see reference to function template instantiation '_BidIt2 *std::copy_backward<QCPGraphData*,QCPGraphData*>(_BidIt1,_BidIt1,_BidIt2)' being compiled
+          with
+          [
+              _BidIt2=QCPGraphData *,
+              _BidIt1=QCPGraphData *
+          ]
+  c:\alex\new07\alexlassooij\practiceguiproject\qtguipractice\qcustomplot.h(3391): note: while compiling class template member function 'void QCPDataContainer<QCPGraphData>::preallocateGrow(int)'
+  c:\alex\new07\alexlassooij\practiceguiproject\qtguipractice\qcustomplot.h(2948): note: see reference to function template instantiation 'void QCPDataContainer<QCPGraphData>::preallocateGrow(int)' being compiled
+  c:\alex\new07\alexlassooij\practiceguiproject\qtguipractice\qcustomplot.h(2806): note: while compiling class template member function 'QCPDataContainer<QCPGraphData>::QCPDataContainer(void)'
+  qcustomplot.cpp(34458): note: see reference to function template instantiation 'QCPDataContainer<QCPGraphData>::QCPDataContainer(void)' being compiled
+  c:\alex\new07\alexlassooij\practiceguiproject\qtguipractice\qcustomplot.h(5567): note: see reference to class template instantiation 'QCPDataContainer<QCPGraphData>' being compiled
+  QtGuiPractice.cpp
+  studentplotcontroller.cpp
+  Generating Code...
+  qrc_QtGuiPractice.cpp
+  QtGuiPractice.vcxproj -> C:\Alex\New07\AlexLassooij\practiceguiProject\x64\Debug\QtGuiPractice.exe
+  QtGuiPractice.vcxproj -> C:\Alex\New07\AlexLassooij\practiceguiProject\x64\Debug\QtGuiPractice.pdb (Full PDB)
