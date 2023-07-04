@@ -30,7 +30,7 @@ void QtGuiPractice::setActionHandling()
 	QObject::connect(actionCut, SIGNAL(triggered()), this, SLOT(actionCut_triggered()));
 
 	//QObject::connect(savePushButton, &QPushButton::released, this, &QtGuiPractice::saveStudentData);
-	connect(savePushButton, &QPushButton::clicked, [=]() {
+	QObject::connect(savePushButton, &QPushButton::clicked, [=]() {
 		saveStudentData();
 	});
 }
@@ -160,7 +160,7 @@ void QtGuiPractice::setUpStudentFormLayout()
 	studentFormVerticalLayout->addWidget(studentNameText);
 
 	studentFormVerticalLayout->addWidget(emailLabel);
-	studentFormVerticalLayout->addWidget(emailLabel);
+	studentFormVerticalLayout->addWidget(emailText);
 
 	studentFormVerticalLayout->addWidget(versionLabel);
 	studentFormVerticalLayout->addWidget(versionText);
@@ -348,8 +348,7 @@ void QtGuiPractice::setUpUi()
 	centralWidget = new QWidget(this);
 	centralWidget->setObjectName(QStringLiteral("centralWidget"));
 
-	setActions();
-	setActionHandling();
+	
 
 	// configure tab widget that will contain student and plot tab 
 	tabWidget = new QTabWidget(centralWidget);
@@ -377,7 +376,8 @@ void QtGuiPractice::setUpUi()
 
 	// remove ? 
 	this->setCentralWidget(centralWidget);
-
+	setActions();
+	setActionHandling();
 	setUpMenu();
 	setUiDisplayNames();
 
@@ -452,7 +452,7 @@ void QtGuiPractice::saveStudentData()
 
 	QSqlQuery	query;
 
-	QString sql = QString("insert into ProjectInfo (ProjectName, StudentName, Email, Version, CreatedTime, Description, ModelType)"
+	QString sql = QString("INSERT INTO ProjectInfo (ProjectName, StudentName, Email, Version, CreatedTime, Description, ModelType)"
 		"VALUES('%1', '%2', '%3', '%4', '%5', '%6', '%7')")
 		.arg(projectName)
 		.arg(studentName)
