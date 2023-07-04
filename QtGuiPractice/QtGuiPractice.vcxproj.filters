@@ -73,9 +73,6 @@
     <CustomBuild Include="QtGuiPractice.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="QtGuiPractice.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="QtGuiPractice.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
@@ -84,9 +81,6 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_QtGuiPractice.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="studentplotcontroller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
