@@ -1,6 +1,5 @@
 #pragma once
 #include <qcustomplot.h>
-#include "QtGuiPracticeUiConfigurer.h"
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -13,15 +12,15 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+class QtGuiPractice;
 
 class StudentPlotController
 {
-
 	// widget initialized with no parents
 public:
-	StudentPlotController(Ui_QtGuiPracticeUiConfigurer *ui = Q_NULLPTR, QCustomPlot *studentPlot = Q_NULLPTR);
+	StudentPlotController(QtGuiPractice *ui = Q_NULLPTR, QCustomPlot *studentPlot = Q_NULLPTR);
 private:
-	Ui_QtGuiPracticeUiConfigurer *ui;
+	QtGuiPractice* ui;
 	QCustomPlot *studentPlot;
 	QString databasePath;
 	QSqlDatabase StudentDb;
@@ -49,8 +48,6 @@ private:
 	void executeQuery(QSqlQuery*, QString);
 	void setComboBoxes();
 	void showData();
-
-
 
 public:
 	void setBackground();

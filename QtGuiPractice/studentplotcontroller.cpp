@@ -1,6 +1,7 @@
 #include <studentplotcontroller.h>
+#include <QtGuiPractice.h>
 
-StudentPlotController::StudentPlotController(QtGuiPracticeUiConfigurer *ui, QCustomPlot *studentPlot)
+StudentPlotController::StudentPlotController(QtGuiPractice *ui, QCustomPlot *studentPlot)
 {
 	this->studentPlot = studentPlot;	
 
