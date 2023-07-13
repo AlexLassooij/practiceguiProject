@@ -10,7 +10,7 @@ QtGuiPractice::QtGuiPractice(QWidget *parent) : QMainWindow(parent)
 	initDb();
 
 	setWindowTitle(QString("Qt GUI Practice 20230622"));
-	setUpPlotController();
+	setUpStudentDataManager();
 
 }
 
@@ -29,9 +29,24 @@ void QtGuiPractice::setActionHandling()
 	QObject::connect(actionPaste, SIGNAL(triggered()), this, SLOT(actionPaste_triggered()));
 	QObject::connect(actionCut, SIGNAL(triggered()), this, SLOT(actionCut_triggered()));
 
-	//QObject::connect(savePushButton, &QPushButton::released, this, &QtGuiPractice::saveStudentData);
 	QObject::connect(savePushButton, &QPushButton::clicked, [=]() {
 		saveStudentData();
+	});
+
+	QObject::connect(queryPushButton, &QPushButton::clicked, [=]() {
+		studentDataManager.getFilteredStudentData();
+	});
+
+	QObject::connect(applyEditButton, &QPushButton::clicked, [=]() {
+		studentDataManager.processEdits();
+	});
+
+	QObject::connect(applyDeleteButton, &QPushButton::clicked, [=]() {
+		studentDataManager.processDeletes();
+	});
+
+	QObject::connect(resetSearchButton, &QPushButton::clicked, [=]() {
+		studentDataManager.resetSearch();
 	});
 }
 
@@ -47,111 +62,76 @@ void QtGuiPractice::setActions() {
 	quitIcon.addFile(QStringLiteral(":/Resources/Resources/icons8-quit-50.png"), QSize(), QIcon::Normal, QIcon::Off);
 
 	actionSave = new QAction(this);
-	actionSave->setObjectName(QStringLiteral("actionSave"));
 	actionSave->setIcon(saveIcon);
 	actionSave->setMenuRole(QAction::TextHeuristicRole);
-	actionSave->setFont(mainFont);
 
 	actionExport = new QAction(this);
-	actionExport->setObjectName(QStringLiteral("actionExport"));
 	actionExport->setIcon(exportIcon);
 
 	actionOpen = new QAction(this);
-	actionOpen->setObjectName(QStringLiteral("actionOpen"));
 	actionOpen->setIcon(openIcon);
 
 	actionQuit = new QAction(this);
-	actionQuit->setObjectName(QStringLiteral("actionQuit"));
 	actionQuit->setIcon(quitIcon);
 	actionSave->setMenuRole(QAction::QuitRole);
 
 
 	actionCopy = new QAction(this);
-	actionCopy->setObjectName(QStringLiteral("actionCopy"));
 
 	actionPaste = new QAction(this);
-	actionPaste->setObjectName(QStringLiteral("actionPaste"));
 
 	actionCut = new QAction(this);
-	actionCut->setObjectName(QStringLiteral("actionCut"));
 
 	actionHelp = new QAction(this);
-	actionCut->setObjectName(QStringLiteral("actionHelp"));
 	//actionSave->setMenuRole(QAction::AboutRole);
 }
 
 void QtGuiPractice::setUpStudentFormLayout()
 {
 	studentFormVerticalLayoutWidget = new QWidget(studentFormTab);
-	studentFormVerticalLayoutWidget->setObjectName(QStringLiteral("studentFormVerticalLayoutWidget"));
 	studentFormVerticalLayoutWidget->setGeometry(QRect(0, 0, MAIN_WINDOW_HEIGHT, MAIN_WINDOW_WIDTH));
 
 	studentFormVerticalLayout = new QVBoxLayout(studentFormVerticalLayoutWidget);
 	studentFormVerticalLayout->setSpacing(5);
-	studentFormVerticalLayout->setObjectName(QStringLiteral("studentFormVerticalLayout"));
-	studentFormVerticalLayout->setContentsMargins(10, 10, 10, 10);
-
+	studentFormVerticalLayout->setContentsMargins(10, 5, 10, 10);
 
 	projectNameLabel = new QLabel(studentFormVerticalLayoutWidget);
-	projectNameLabel->setObjectName(QStringLiteral("projectNameLabel"));
-	projectNameLabel->setMaximumSize(QSize(16777215, 15));
-	projectNameLabel->setFont(mainFont);
+	projectNameLabel->setMaximumSize(QSize(MAIN_WINDOW_WIDTH / 2, 20));
 
 
 	projectNameText = new QPlainTextEdit(studentFormVerticalLayoutWidget);
-	projectNameText->setObjectName(QStringLiteral("projectNameText"));
-	projectNameText->setEnabled(true);
 	projectNameText->setMaximumSize(QSize(400, 35));
-	projectNameText->setFont(mainFont);
 	projectNameText->setInputMethodHints(Qt::ImhMultiLine);
 
 
 	studentNameLabel = new QLabel(studentFormVerticalLayoutWidget);
-	studentNameLabel->setObjectName(QStringLiteral("studentNameLabel"));
-	studentNameLabel->setMaximumSize(QSize(16777215, 15));
-	studentNameLabel->setFont(mainFont);
+	studentNameLabel->setMaximumSize(QSize(16777220, 20));
 
 	studentNameText = new QTextEdit(studentFormVerticalLayoutWidget);
-	studentNameText->setObjectName(QStringLiteral("studentNameText"));
 	studentNameText->setMaximumSize(QSize(400, 35));
-	studentNameText->setFont(mainFont);
 
 
 	emailLabel = new QLabel(studentFormVerticalLayoutWidget);
-	emailLabel->setObjectName(QStringLiteral("emailLabel"));
-	emailLabel->setMaximumSize(QSize(16777215, 15));
-	emailLabel->setFont(mainFont);
+	emailLabel->setMaximumSize(QSize(16777220, 20));
 
 	emailText = new QTextEdit(studentFormVerticalLayoutWidget);
-	emailText->setObjectName(QStringLiteral("emailText"));
 	emailText->setPlaceholderText("Enter as <CWL@student.ubc.ca");
 	emailText->setMaximumSize(QSize(400, 35));
-	emailText->setFont(mainFont);
-	emailText->setInputMethodHints(Qt::ImhEmailCharactersOnly | Qt::ImhMultiLine);
+	emailText->setInputMethodHints(Qt::ImhEmailCharactersOnly);
 
 
 	versionLabel = new QLabel(studentFormVerticalLayoutWidget);
-	versionLabel->setObjectName(QStringLiteral("versionLabel"));
-	versionLabel->setMaximumSize(QSize(16777215, 15));
-	versionLabel->setFont(mainFont);
+	versionLabel->setMaximumSize(QSize(16777220, 20));
 
 	versionText = new QTextEdit(studentFormVerticalLayoutWidget);
-	versionText->setObjectName(QStringLiteral("versionText"));
 	versionText->setMaximumSize(QSize(400, 35));
-	versionText->setFont(mainFont);
-
 
 	descriptionLabel = new QLabel(studentFormVerticalLayoutWidget);
-	descriptionLabel->setObjectName(QStringLiteral("descriptionLabel"));
-	descriptionLabel->setMaximumSize(QSize(16777215, 15));
-	descriptionLabel->setFont(mainFont);
+	descriptionLabel->setMaximumSize(QSize(16777220, 20));
 
 	descriptionText = new QTextEdit(studentFormVerticalLayoutWidget);
-	descriptionText->setObjectName(QStringLiteral("descriptionText"));
 	descriptionText->setPlaceholderText("Optional");
 	descriptionText->setMaximumSize(QSize(MAIN_WINDOW_HEIGHT, 140));
-	descriptionText->setFont(mainFont);
-
 
 	studentFormVerticalLayout->addWidget(projectNameLabel);
 	studentFormVerticalLayout->addWidget(projectNameText);
@@ -171,14 +151,12 @@ void QtGuiPractice::setUpStudentFormLayout()
 
 	studentFormHorizontalLayout = new QHBoxLayout();
 	studentFormHorizontalLayout->setSpacing(5);
-	studentFormHorizontalLayout->setObjectName(QStringLiteral("studentFormHorizontalLayout"));
 	studentFormHorizontalLayout->setContentsMargins(-1, 5, -1, 5);
 
 	savePushButton = new QPushButton(studentFormVerticalLayoutWidget);
-	savePushButton->setObjectName(QStringLiteral("savePushButton"));
-	savePushButton->setMinimumSize(QSize(0, 30));
+	savePushButton->setMinimumSize(QSize(0, 35));
 	savePushButton->setMaximumSize(QSize(350, 40));
-	savePushButton->setFont(mainFont);
+	savePushButton->setFont(*bodyFont);
 
 	studentFormHorizontalLayout->addWidget(savePushButton);
 	studentFormHorizontalLayout->setStretch(0, 1);
@@ -189,24 +167,19 @@ void QtGuiPractice::setUpStudentFormLayout()
 void QtGuiPractice::setUpPlotLayout()
 {
 	plotSettingVerticalLayoutWidget = new QWidget(plotTab);
-	plotSettingVerticalLayoutWidget->setObjectName(QStringLiteral("plotSettingVerticalLayoutWidget"));
 	plotSettingVerticalLayoutWidget->setGeometry(QRect(0, 0, MAIN_WINDOW_WIDTH, 120));
 
 	plotSettingVerticalLayout = new QVBoxLayout(plotSettingVerticalLayoutWidget);
 	plotSettingVerticalLayout->setSpacing(0);
-	plotSettingVerticalLayout->setObjectName(QStringLiteral("plotSettingVerticalLayout"));
 	plotSettingVerticalLayout->setContentsMargins(0, 0, 0, 0);
 
 	settingLabelHorizontalLayout = new QHBoxLayout();
 	settingLabelHorizontalLayout->setSpacing(6);
-	settingLabelHorizontalLayout->setObjectName(QStringLiteral("horizontalLayout_7"));
 	settingLabelHorizontalLayout->setContentsMargins(75, 0, 185, 0);
 
 	selectDistrictLabel = new QLabel(plotSettingVerticalLayoutWidget);
-	selectDistrictLabel->setObjectName(QStringLiteral("selectDistrictLabel"));
 
 	selectGradeLabel = new QLabel(plotSettingVerticalLayoutWidget);
-	selectGradeLabel->setObjectName(QStringLiteral("selectGradeLabel"));
 
 	settingLabelHorizontalLayout->addWidget(selectDistrictLabel);
 	settingLabelHorizontalLayout->addWidget(selectGradeLabel);
@@ -214,17 +187,13 @@ void QtGuiPractice::setUpPlotLayout()
 
 	comboBoxHorizontalLayout = new QHBoxLayout();
 	comboBoxHorizontalLayout->setSpacing(15);
-	comboBoxHorizontalLayout->setObjectName(QStringLiteral("comboBoxHorizontalLayout"));
 	comboBoxHorizontalLayout->setContentsMargins(75, 0, 75, 30);
 
 	districtComboBox = new QComboBox(plotSettingVerticalLayoutWidget);
-	districtComboBox->setObjectName(QStringLiteral("districtComboBox"));
 
 	gradeComboBox = new QComboBox(plotSettingVerticalLayoutWidget);
-	gradeComboBox->setObjectName(QStringLiteral("gradeComboBox"));
 
 	loadDataButton = new QPushButton(plotSettingVerticalLayoutWidget);
-	loadDataButton->setObjectName(QStringLiteral("loadDataButton"));
 	loadDataButton->setMaximumSize(QSize(100, 30));
 
 	comboBoxHorizontalLayout->addWidget(districtComboBox);
@@ -237,40 +206,204 @@ void QtGuiPractice::setUpPlotLayout()
 
 	plotSettingVerticalLayout->addLayout(settingLabelHorizontalLayout);
 	plotSettingVerticalLayout->addLayout(comboBoxHorizontalLayout);
+
+	studentplot = new QCustomPlot(plotTab);
+	studentplot->setGeometry(QRect(0, 120, MAIN_WINDOW_WIDTH, 500));
+}
+
+void QtGuiPractice::setUpQueryLayout() 
+{
+	//queryVerticalLayoutWidget = new QWidget(queryTab);
+	//queryVerticalLayoutWidget->setObjectName(QStringLiteral("studentFormVerticalLayoutWidget"));
+	//queryVerticalLayoutWidget->setGeometry(QRect(0, 0, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT));
+
+	//queryVerticalLayout = new QVBoxLayout(queryVerticalLayoutWidget);
+	//queryVerticalLayout->setSpacing(0);
+	//queryVerticalLayout->setObjectName(QStringLiteral("querySelectionVerticalLayout"));
+	//// queryVerticalLayout->setContentsMargins(50, 20, 50, 20);
+	//queryVerticalLayout->setGeometry(QRect(0, 0, MAIN_WINDOW_WIDTH, 400));
+
+
+	querySelectionGridLayoutWidget = new QWidget(queryTab);
+	querySelectionGridLayoutWidget->setGeometry(QRect(0, 0, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT*0.85));
+
+	querySelectionGridLayout = new QGridLayout(querySelectionGridLayoutWidget);
+	querySelectionGridLayout->setSpacing(10);
+	querySelectionGridLayout->setContentsMargins(50, 10, 50, 10);
+
+
+	queryTitleLabel = new QLabel(querySelectionGridLayoutWidget);
+	queryTitleLabel->setMaximumSize(QSize(MAIN_WINDOW_WIDTH / 3, 40));
+	queryTitleLabel->setText("Search and Edit Students");
+	queryTitleLabel->setFont(*headerFont);
+	queryTitleLabel->setEnabled(false);
+
+	queryNameLabel = new QLabel(querySelectionGridLayoutWidget);
+	queryNameLabel->setMaximumSize(QSize(MAIN_WINDOW_WIDTH / 3, 20));
+	queryNameLabel->setText("Student Name");
+
+
+	queryNameText = new QTextEdit(querySelectionGridLayoutWidget);
+	queryNameText->setMaximumSize(QSize(MAIN_WINDOW_WIDTH / 3, 35));
+
+
+	queryScoreLabel = new QLabel(querySelectionGridLayoutWidget);
+	queryScoreLabel->setMaximumSize(QSize(MAIN_WINDOW_WIDTH / 3, 20));
+	queryScoreLabel->setText("Student Score");
+
+
+	queryScoreText = new QTextEdit(querySelectionGridLayoutWidget);
+	queryScoreText->setMaximumSize(QSize(MAIN_WINDOW_WIDTH / 5, 35));
+	queryScoreText->setPlaceholderText(QString("0.0 - 100.0"));
+
+
+	queryGradeLabel = new QLabel(querySelectionGridLayoutWidget);
+	queryGradeLabel->setMaximumSize(QSize(MAIN_WINDOW_WIDTH / 3, 20));
+	queryGradeLabel->setText("Grade");
+
+	queryScoreGroupBox = new QGroupBox();
+	queryScoreGreater = new QRadioButton("Greater");
+	queryScoreLess = new QRadioButton("Less");
+	queryScoreGreater->setChecked(true);
+
+	queryScoreHBox = new QHBoxLayout();
+	queryScoreHBox->addWidget(queryScoreGreater);
+	queryScoreHBox->addWidget(queryScoreLess);
+	queryScoreGroupBox->setLayout(queryScoreHBox);
+
+
+	queryGradeComboBox = new QComboBox(querySelectionGridLayoutWidget);
+	queryGradeComboBox->setMaximumSize(QSize(MAIN_WINDOW_WIDTH / 3, 35));
+
+
+	queryDistrictLabel = new QLabel(querySelectionGridLayoutWidget);
+	queryDistrictLabel->setMaximumSize(QSize(MAIN_WINDOW_WIDTH / 3, 20));
+	queryDistrictLabel->setText("District");
+
+	queryDistrictComboBox = new QComboBox(querySelectionGridLayoutWidget);
+
+	queryYearLabel = new QLabel(querySelectionGridLayoutWidget);
+	queryYearLabel->setMaximumSize(QSize(MAIN_WINDOW_WIDTH / 3, 20));
+	queryYearLabel->setText("Year");
+
+	queryYearComboBox = new QComboBox(querySelectionGridLayoutWidget);
+
+	querySortByLabel = new QLabel(querySelectionGridLayoutWidget);
+	querySortByLabel->setMaximumSize(QSize(MAIN_WINDOW_WIDTH / 3, 20));
+	querySortByLabel->setText("Sort By");
+
+
+	querySortByComboBox = new QComboBox(querySelectionGridLayoutWidget);
+
+	queryPushButton = new QPushButton("Search", querySelectionGridLayoutWidget);
+
+	queryResultsTable = new QTableWidget(querySelectionGridLayoutWidget);
+	queryResultsTable->horizontalHeader()->setStyleSheet("QHeaderView::section{background:skyblue;}");
+	tableFields = new QStringList({ "ID", "Name", "Email", "District", "Grade", "Year", "S1", "S2", "S3", "SF" });
+	queryResultsTable->setColumnCount(tableFields->size());
+	queryResultsTable->setHorizontalHeaderLabels(*tableFields);
+	queryResultsTable->horizontalHeader()->setVisible(true);
+	queryResultsTable->setVerticalScrollMode(QAbstractItemView::ScrollPerItem);
+	queryResultsTable->setSelectionMode(QAbstractItemView::SingleSelection);
+	queryResultsTable->horizontalHeader()->setSelectionMode(QAbstractItemView::NoSelection);
+
+	queryResultsTable->setColumnWidth(0, 60);
+	queryResultsTable->setColumnWidth(1, 150);
+	queryResultsTable->setColumnWidth(2, 200);
+	queryResultsTable->setColumnWidth(3, 90);
+	queryResultsTable->setColumnWidth(4, 80);
+	queryResultsTable->setColumnWidth(5, 70);
+	queryResultsTable->setColumnWidth(6, 40);
+	queryResultsTable->setColumnWidth(7, 40);
+	queryResultsTable->setColumnWidth(8, 40);
+	queryResultsTable->setColumnWidth(9, 40);
+	// queryResultsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+	applyEditButton = new QPushButton("Apply Edits", querySelectionGridLayoutWidget);
+	applyDeleteButton = new QPushButton("Apply Deletes", querySelectionGridLayoutWidget);
+	resetSearchButton = new QPushButton("Reset", querySelectionGridLayoutWidget);
+
+
+
+
+	querySelectionGridLayout->addWidget(queryTitleLabel, 0, 0, 1, 3);
+	querySelectionGridLayout->addWidget(queryNameLabel, 1, 0, 1, 2);
+	querySelectionGridLayout->addWidget(queryNameText, 2, 0, 1, 2);
+
+	querySelectionGridLayout->addWidget(queryScoreLabel, 1, 2, 1, 1);
+	querySelectionGridLayout->addWidget(queryScoreText, 2, 2, 1, 1);
+	querySelectionGridLayout->addWidget(queryScoreGroupBox, 2, 3, 1, 1);
+
+	
+	querySelectionGridLayout->addWidget(queryDistrictLabel, 3, 0, 1, 1);
+	querySelectionGridLayout->addWidget(queryDistrictComboBox, 4, 0, 1, 1);
+
+	querySelectionGridLayout->addWidget(queryGradeLabel, 3, 1, 1, 1);
+	querySelectionGridLayout->addWidget(queryGradeComboBox, 4, 1, 1, 1);
+
+	querySelectionGridLayout->addWidget(queryYearLabel, 3, 2, 1, 1);
+	querySelectionGridLayout->addWidget(queryYearComboBox, 4, 2, 1, 1);
+
+	querySelectionGridLayout->addWidget(querySortByLabel, 3, 3, 1, 1);
+	querySelectionGridLayout->addWidget(querySortByComboBox, 4, 3, 1, 1);
+
+	querySelectionGridLayout->addWidget(queryPushButton, 5, 0, 1, 1);
+
+	querySelectionGridLayout->addWidget(queryResultsTable, 6, 0, 4, 5);
+
+	querySelectionGridLayout->addWidget(applyEditButton, 10, 0, 1, 1);
+	querySelectionGridLayout->addWidget(applyDeleteButton, 10, 1, 1, 1);
+	querySelectionGridLayout->addWidget(resetSearchButton, 10, 2, 1, 1);
+
+
+	//queryResultScrollArea = new QScrollArea(querySelectionGridLayoutWidget);
+	////queryResultScrollArea->setGeometry(QRect(0, 0, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT * 0.5));
+
+	//queryResultScrollArea = new QScrollArea(querySelectionGridLayoutWidget);
+	//queryResultScrollArea->setObjectName(QStringLiteral("queryResultScrollArea"));
+	//queryResultScrollArea->setMaximumSize(QSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT * 0.5));
+	//queryResultScrollArea->setWidgetResizable(true);
+	//queryResultScrollAreaContents = new QWidget();
+	//queryResultScrollAreaContents->setObjectName(QStringLiteral("queryResultScrollAreaContents"));
+	//// scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 323, 705));
+	//queryResultScrollAreaVerticalLayout = new QVBoxLayout(queryResultScrollAreaContents);
+	////queryResultScrollAreaVerticalLayout->setSpacing(4);
+	////queryResultScrollAreaVerticalLayout->setContentsMargins(5, 5, 5, 5);
+	//queryResultScrollAreaVerticalLayout->setObjectName(QStringLiteral("queryResultScrollAreaVerticalLayout"));
+	//queryResultScrollArea->setWidget(queryResultScrollAreaContents);
+
+
+
+	//queryVerticalLayout->addWidget(queryTitleLabel);
+	//queryVerticalLayout->addWidget(querySelectionGridLayoutWidget);
+	//queryVerticalLayout->addWidget(studentplot);
+
 }
 
 void QtGuiPractice::setUpMenu()
 {
 	menuBar = new QMenuBar(this);
-	menuBar->setObjectName(QStringLiteral("menuBar"));
 	menuBar->setGeometry(QRect(0, 0, MAIN_WINDOW_WIDTH, 30));
-	menuBar->setFont(mainFont);
+	menuBar->setFont(*bodyFont);
 
 	menuFile = new QMenu(menuBar);
-	menuFile->setObjectName(QStringLiteral("menuFile"));
-	menuFile->setFont(mainFont);
+	menuFile->setFont(*bodyFont);
 
 	menuEdit = new QMenu(menuBar);
-	menuEdit->setObjectName(QStringLiteral("menuEdit"));
-	menuEdit->setFont(mainFont);
+	menuEdit->setFont(*bodyFont);
 
 	menuHelp = new QMenu(menuBar);
-	menuHelp->setObjectName(QStringLiteral("menuHelp"));
 
 	menuInsert = new QMenu(menuBar);
-	menuInsert->setObjectName(QStringLiteral("menuInsert"));
 
 	menuTools = new QMenu(menuBar);
-	menuTools->setObjectName(QStringLiteral("menuTools"));
 
 	this->setMenuBar(menuBar);
 	mainToolBar = new QToolBar(this);
-	mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
 	this->addToolBar(Qt::TopToolBarArea, mainToolBar);
 
 	// remove ? 
 	statusBar = new QStatusBar(this);
-	statusBar->setObjectName(QStringLiteral("statusBar"));
 	this->setStatusBar(statusBar);
 
 	// set order of focus change when pressing "Tab" button
@@ -318,11 +451,11 @@ void QtGuiPractice::setUiDisplayNames()
 	descriptionLabel->setText(QApplication::translate("this", "Description", Q_NULLPTR));
 
 	savePushButton->setText(QApplication::translate("this", "Save Data", Q_NULLPTR));
-	tabWidget->setTabText(tabWidget->indexOf(studentFormTab), QApplication::translate("this", "Student Project Form", Q_NULLPTR));
 	selectDistrictLabel->setText(QApplication::translate("this", "Select District", Q_NULLPTR));
 	selectGradeLabel->setText(QApplication::translate("this", "Select Grade", Q_NULLPTR));
 	loadDataButton->setText(QApplication::translate("this", "Load Data", Q_NULLPTR));
-
+	tabWidget->setTabText(tabWidget->indexOf(studentFormTab), QApplication::translate("this", "Student Project Form", Q_NULLPTR));
+	tabWidget->setTabText(tabWidget->indexOf(queryTab), QApplication::translate("this", "Query", Q_NULLPTR));
 	tabWidget->setTabText(tabWidget->indexOf(plotTab), QApplication::translate("this", "Plot", Q_NULLPTR));
 	menuFile->setTitle(QApplication::translate("this", "File", Q_NULLPTR));
 	menuEdit->setTitle(QApplication::translate("this", "Edit", Q_NULLPTR));
@@ -334,45 +467,47 @@ void QtGuiPractice::setUiDisplayNames()
 void QtGuiPractice::setUpUi()
 {
 	if (this->objectName().isEmpty())
-		this->setObjectName(QStringLiteral("this"));
 	// set size of the main window 
 	this->resize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
 	// this->setCursor(QCursor(Qt::OpenHandCursor));
 
 	// define main font 
-	mainFont.setFamily(QStringLiteral("Segoe UI Semibold"));
-	mainFont.setBold(true);
-	mainFont.setWeight(75);
+	/**bodyFont.setFamily(QStringLiteral("Segoe UI Semibold"));
+	*bodyFont.setBold(true);
+	*bodyFont.setWeight(75);*/
+	headerFont = new QFont("Segoe UI Semibold", 12);
+	bodyFont = new QFont("Segoe UI Semibold", 8, QFont::Bold);
+	
+
 
 	// configure central widget
 	centralWidget = new QWidget(this);
-	centralWidget->setObjectName(QStringLiteral("centralWidget"));
 
 	
 
 	// configure tab widget that will contain student and plot tab 
 	tabWidget = new QTabWidget(centralWidget);
-	tabWidget->setObjectName(QStringLiteral("tabWidget"));
 	tabWidget->setGeometry(QRect(0, 0, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT));
 	tabWidget->setMinimumSize(QSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT));
 	tabWidget->setMaximumSize(QSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT));
-	tabWidget->setFont(mainFont);
+	tabWidget->setFont(*bodyFont);
 
 	// configure student form tab
 	studentFormTab = new QWidget();
-	studentFormTab->setObjectName(QStringLiteral("studentFormTab"));
 	setUpStudentFormLayout();
 	tabWidget->addTab(studentFormTab, QString());
 
 	// configure plot tab
 	plotTab = new QWidget();
-	plotTab->setObjectName(QStringLiteral("plotTab"));
-	studentplot = new QCustomPlot(plotTab);
-	studentplot->setObjectName(QStringLiteral("studentplot"));
-	studentplot->setGeometry(QRect(0, 120, MAIN_WINDOW_WIDTH, 575));
+	
 	setUpPlotLayout();
-
 	tabWidget->addTab(plotTab, QString());
+
+	// configure query tab
+	queryTab = new QWidget();
+	
+	setUpQueryLayout();
+	tabWidget->addTab(queryTab, QString());
 
 	// remove ? 
 	this->setCentralWidget(centralWidget);
@@ -382,28 +517,30 @@ void QtGuiPractice::setUpUi()
 	setUiDisplayNames();
 
 	// start on student form tab
-	tabWidget->setCurrentIndex(1);
+	tabWidget->setCurrentIndex(2);
 
 
 	QMetaObject::connectSlotsByName(this);
 } // setupUi
 
 
-void QtGuiPractice::setUpPlotController()
+void QtGuiPractice::setUpStudentDataManager()
 {
-	plotController = StudentPlotController(this, studentplot);
-	plotController.setBackground();
-	/*connect(ui.districtComboBox, currentIndexChanged(-1), this, &StudentPlotController::setBarGraph);
-	connect(ui.gradeComboBox, SIGNAL(currentIndexChanged(-1)), this, SLOT(spController.setBarGraph()));*/
-	//connect(ui.loadDataButton, &QPushButton::released, this, &QtGuiPractice::setBarGraph);
-	//connect(loadDataButton, &QPushButton::released, this, &QtGuiPractice::setBarGraph);
+	studentDataManager = StudentDataManager(this, studentplot);
+	studentDataManager.setBackground();
+	studentDataManager.initStudentDb();
+	studentDataManager.populateStudentData();
+		
 
 	QObject::connect(loadDataButton, &QPushButton::clicked, [=]() {
-		setBarGraph();
+		studentDataManager.setBarGraph();
 	});
-	//connect(loadDataButton, &QPushButton::released, this, plotController.setBarGraph);
 
+	QObject::connect(queryResultsTable, &QTableWidget::itemDoubleClicked, [=](QTableWidgetItem* item) {
+		studentDataManager.handleItemClicked(item);
+	});
 
+	// connect(queryResultsTable, SIGNAL(itemChanged(QTableWidgetItem*)), studentDataManager, SLOT(StudentDataManager::addToEdit(QTableWidgetItem*)));
 }
 
 void QtGuiPractice::initDb() {
@@ -485,7 +622,7 @@ void QtGuiPractice::actionOpen_triggered()
 	// create a file dialog 
 	QString fileName = QFileDialog::getOpenFileName(this, "Import Student Data", "C://", "Database file (*.db)");
 	// QString fileName = "C:/Users/alexl/Documents/WorkLearn/Codebase/Training/Database/practice.db";
-	plotController.setDatabasePath(fileName);
+	studentDataManager.setDatabasePath(fileName);
 }
 
 void QtGuiPractice::actionExport_triggered()
@@ -516,7 +653,7 @@ void QtGuiPractice::actionCut_triggered()
 void QtGuiPractice::setBarGraph()
 {
 	// qDebug() << "test" << endl;
-	plotController.setBarGraph();
+	studentDataManager.setBarGraph();
 }
 
 // QtGuiPractice::QtGuiPractice()

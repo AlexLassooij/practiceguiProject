@@ -33,12 +33,13 @@
 // qcustomplot
 #include "qcustomplot.h"
 
-#include "studentplotcontroller.h"
+#include "studentdatamanager.h"
 #include <iostream>
 
 
-#define MAIN_WINDOW_WIDTH 750
-#define MAIN_WINDOW_HEIGHT 800
+#define MAIN_WINDOW_WIDTH 1000
+#define MAIN_WINDOW_HEIGHT 900
+#define TAB_WIDGET_HEIGHT 650
 
 class QtGuiPractice : public QMainWindow
 {
@@ -53,7 +54,8 @@ public:
 
 	// high level objects
 	QWidget *centralWidget;
-	QFont mainFont;
+	QFont *headerFont;
+	QFont *bodyFont;
 	QTabWidget *tabWidget;
 
 	// menu bar widgets 
@@ -123,6 +125,52 @@ public:
 
 	QHBoxLayout *settingLabelHorizontalLayout;
 
+	QWidget *queryTab;
+
+	//QScrollArea *queryResultScrollArea;
+	//QWidget *queryResultScrollAreaContents;
+	//QVBoxLayout *queryResultScrollAreaVerticalLayout;
+
+	QTableWidget *queryResultsTable;
+	QStringList *tableFields;
+
+	QWidget *queryVerticalLayoutWidget;
+	QVBoxLayout *queryVerticalLayout;
+
+	QWidget *querySelectionGridLayoutWidget;
+	QGridLayout *querySelectionGridLayout;
+
+	QLabel *queryTitleLabel;
+	QLabel *queryNameLabel;
+	QTextEdit *queryNameText;
+
+	QLabel *queryScoreLabel;
+	QTextEdit *queryScoreText;
+
+	QGroupBox *queryScoreGroupBox;
+	QHBoxLayout *queryScoreHBox;
+	QRadioButton *queryScoreGreater;
+	QRadioButton *queryScoreLess;
+
+	QLabel *queryDistrictLabel;
+	QComboBox *queryDistrictComboBox;
+
+	QLabel *queryGradeLabel;
+	QComboBox *queryGradeComboBox;
+
+	QLabel *queryYearLabel;
+	QComboBox *queryYearComboBox;
+
+	QLabel *querySortByLabel;
+	QComboBox *querySortByComboBox;
+
+	QPushButton *queryPushButton;
+
+	QPushButton *applyDeleteButton;
+	QPushButton *applyEditButton;
+	QPushButton *resetSearchButton;
+
+
 	// can probably remove this
 	QStatusBar *statusBar;
 
@@ -137,19 +185,20 @@ private:
 	void setActions();
 	void setUpStudentFormLayout();
 	void setUpPlotLayout();
+	void setUpQueryLayout();
 	void setUpMenu();
 	void setUiDisplayNames();
 	void setActionHandling();
 
 	// ui controlling methods
-	void setUpPlotController();
+	void setUpStudentDataManager();
 	void initDb();
 	void saveStudentData();
 	void setBarGraph();
 
 	// non-ui elements
 	QSqlDatabase HSSDb;
-	StudentPlotController plotController;
+	StudentDataManager studentDataManager;
 
 	
 
