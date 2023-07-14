@@ -155,7 +155,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="qcustomplot.cpp" />
     <ClCompile Include="QtGuiPractice.cpp" />
-    <ClCompile Include="studentplotcontroller.cpp" />
+    <ClCompile Include="studentdatamanager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="QtGuiPractice.h">
@@ -178,7 +178,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="studentplotcontroller.h" />
+    <ClInclude Include="studentdatamanager.h" />
     <CustomBuild Include="qcustomplot.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

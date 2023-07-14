@@ -65,7 +65,7 @@
     <ClCompile Include="qcustomplot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="studentplotcontroller.cpp">
+    <ClCompile Include="studentdatamanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -81,7 +81,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="studentplotcontroller.h">
+    <ClInclude Include="studentdatamanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
