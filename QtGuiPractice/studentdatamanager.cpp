@@ -409,53 +409,8 @@ void StudentDataManager::setQueryResultArea(QVector<StudentDataStruct> *results)
 		ui->searchResultsTable->setItem(row, 10, edit);
 		ui->searchResultsTable->setItem(row, 11, del);
 	}
-
-	/*for (int i = 0; i < results.size(); i++) {
-		StudentDataStruct current = results.at(i);
-		QGridLayout *resultRow = new QGridLayout(ui->queryResultScrollAreaContents);
-		QLabel *name = new QLabel(ui->queryResultScrollAreaContents);
-		name->setText(QString("'%1' '%2'").arg(current.firstName).arg(current.lastName));
-
-		QLabel *email = new QLabel(ui->queryResultScrollAreaContents);
-		email->setText(QString(current.email));
-
-		QLabel *year = new QLabel(ui->queryResultScrollAreaContents);
-		email->setText(QString(current.year));
-
-		QLabel *grade = new QLabel(ui->queryResultScrollAreaContents);
-		grade->setText(QString(current.email));
-
-		QLabel *district = new QLabel(ui->queryResultScrollAreaContents);
-		district->setText(QString(current.email));
-
-		QLabel *pctave = new QLabel(ui->queryResultScrollAreaContents);
-		pctave->setText(QString(current.email));
-
-		resultRow->addWidget(name, 0, 0, 1, 2);
-		resultRow->addWidget(email, 0, 2, 1, 2);
-		resultRow->addWidget(year, 0, 4, 1, 1);
-		resultRow->addWidget(grade, 0, 5, 1, 1);
-		resultRow->addWidget(district, 0, 6, 1, 1);
-		resultRow->addWidget(pctave, 0, 7, 1, 1);
-
-		ui->queryResultScrollAreaVerticalLayout->addLayout(resultRow);*/
-
-
 }
 
-//void StudentDataManager::clearQueryResultArea()
-//{
-//	if (ui->queryResultScrollAreaVerticalLayout->layout() != NULL)
-//	{
-//		QLayoutItem* item;
-//		while ((item = ui->queryResultScrollAreaVerticalLayout->layout()->takeAt(0)) != NULL)
-//		{
-//			delete item->widget();
-//			delete item;
-//		}
-//		// delete ui->queryResultScrollAreaVerticalLayout->layout();
-//	}
-//}
 
 void StudentDataManager::setBarGraph()
 {
@@ -520,6 +475,7 @@ void StudentDataManager::showData()
 	QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
 	textTicker->addTicks(xTicks, xLabels);
 	studentPlot->xAxis->setTicker(textTicker);
+
 	// 0 inside, 4 outside plot
 	studentPlot->xAxis->setTickLength(0, 4);
 	studentPlot->xAxis->setRange(0, 6);
@@ -529,9 +485,6 @@ void StudentDataManager::showData()
 	studentPlot->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
 	studentPlot->xAxis->setTickLabelColor(Qt::white);
 	studentPlot->xAxis->setLabelColor(Qt::white);
-
-
-
 
 	// prepare y axis:
 	double rangeMax = std::max({ currentDataPlotted.score1, currentDataPlotted.score2, currentDataPlotted.score3, currentDataPlotted.scorefinal }) + YAXIS_BUFFER;
@@ -558,5 +511,3 @@ void StudentDataManager::showData()
 
 	studentPlot->replot();
 }
-
-

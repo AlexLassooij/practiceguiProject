@@ -147,7 +147,6 @@ public:
 	QPushButton *loadDataButton;
 
 	// layout widgets for plot tab
-
 	QWidget *plotSettingVerticalLayoutWidget;
 	QVBoxLayout *plotSettingVerticalLayout;
 	QHBoxLayout *comboBoxHorizontalLayout;
@@ -155,10 +154,6 @@ public:
 	QHBoxLayout *settingLabelHorizontalLayout;
 
 	QWidget *searchTab;
-
-	//QScrollArea *queryResultScrollArea;
-	//QWidget *queryResultScrollAreaContents;
-	//QVBoxLayout *queryResultScrollAreaVerticalLayout;
 
 	QTableWidget *searchResultsTable;
 	QStringList *tableFields;
@@ -219,15 +214,12 @@ private:
 	void setActions();
 	void setUpStudentFormLayout();
 	void setUpPlotLayout();
-	void setUpQueryLayout();
+	void setUpSearchLayout();
 	void setUpMenu();
-	void setUiDisplayNames();
 	void setActionHandling();
 
 	// ui controlling methods
 	void setUpStudentDataManager();
-	void initDb();
-	void saveStudentData();
 	void setBarGraph();
 
 	// non-ui elements

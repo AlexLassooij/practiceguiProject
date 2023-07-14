@@ -6,9 +6,6 @@ QtGuiPractice::QtGuiPractice(QWidget *parent) : QMainWindow(parent)
 {
 	// ui = new QtGuiPracticeUiConfigurer();
 	setUpUi();
-
-	initDb();
-
 	setWindowTitle(QString("Qt GUI Practice 20230622"));
 	setUpStudentDataManager();
 
@@ -44,26 +41,32 @@ void QtGuiPractice::setActions() {
 	actionSave = new QAction(this);
 	actionSave->setIcon(saveIcon);
 	actionSave->setMenuRole(QAction::TextHeuristicRole);
+	actionSave->setText("Save");
 
 	actionExport = new QAction(this);
 	actionExport->setIcon(exportIcon);
+	actionExport->setText("Export");
 
 	actionOpen = new QAction(this);
 	actionOpen->setIcon(openIcon);
+	actionOpen->setText("Open");
 
 	actionQuit = new QAction(this);
 	actionQuit->setIcon(quitIcon);
-	actionSave->setMenuRole(QAction::QuitRole);
-
+	actionQuit->setMenuRole(QAction::QuitRole);
+	actionQuit->setText("Quit");
 
 	actionCopy = new QAction(this);
+	actionCopy->setText("Copy");
 
 	actionPaste = new QAction(this);
+	actionPaste->setText("Paste");
 
 	actionCut = new QAction(this);
+	actionCut->setText("Cut");
 
 	actionHelp = new QAction(this);
-	//actionSave->setMenuRole(QAction::AboutRole);
+	actionHelp->setText("Help");
 }
 
 void QtGuiPractice::setUpStudentFormLayout()
@@ -213,8 +216,10 @@ void QtGuiPractice::setUpPlotLayout()
 	settingLabelHorizontalLayout->setContentsMargins(75, 0, 185, 0);
 
 	selectDistrictLabel = new QLabel(plotSettingVerticalLayoutWidget);
+	selectDistrictLabel->setText("District");
 
 	selectGradeLabel = new QLabel(plotSettingVerticalLayoutWidget);
+	selectGradeLabel->setText("Grade");
 
 	settingLabelHorizontalLayout->addWidget(selectDistrictLabel);
 	settingLabelHorizontalLayout->addWidget(selectGradeLabel);
@@ -230,6 +235,7 @@ void QtGuiPractice::setUpPlotLayout()
 
 	loadDataButton = new QPushButton(plotSettingVerticalLayoutWidget);
 	loadDataButton->setMaximumSize(QSize(100, 30));
+	loadDataButton->setText("Load Data");
 
 	comboBoxHorizontalLayout->addWidget(districtComboBox);
 	comboBoxHorizontalLayout->addWidget(gradeComboBox);
@@ -246,19 +252,8 @@ void QtGuiPractice::setUpPlotLayout()
 	studentplot->setGeometry(QRect(MAIN_WINDOW_WIDTH*0.1, 120, MAIN_WINDOW_WIDTH*0.8, 500));
 }
 
-void QtGuiPractice::setUpQueryLayout() 
+void QtGuiPractice::setUpSearchLayout() 
 {
-	//queryVerticalLayoutWidget = new QWidget(queryTab);
-	//queryVerticalLayoutWidget->setObjectName(QStringLiteral("studentFormVerticalLayoutWidget"));
-	//queryVerticalLayoutWidget->setGeometry(QRect(0, 0, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT));
-
-	//queryVerticalLayout = new QVBoxLayout(queryVerticalLayoutWidget);
-	//queryVerticalLayout->setSpacing(0);
-	//queryVerticalLayout->setObjectName(QStringLiteral("querySelectionVerticalLayout"));
-	//// queryVerticalLayout->setContentsMargins(50, 20, 50, 20);
-	//queryVerticalLayout->setGeometry(QRect(0, 0, MAIN_WINDOW_WIDTH, 400));
-
-
 	searchSelectionGridLayoutWidget = new QWidget(searchTab);
 	searchSelectionGridLayoutWidget->setGeometry(QRect(0, 0, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT*0.85));
 
@@ -360,7 +355,6 @@ void QtGuiPractice::setUpQueryLayout()
 	searchResultsTable->setColumnWidth(9, 50);
 	searchResultsTable->setColumnWidth(10, 60);
 	searchResultsTable->setColumnWidth(11, 60);
-	// queryResultsTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
 	applyEditButton = new QPushButton("Apply Edits", searchSelectionGridLayoutWidget);
 	applyDeleteButton = new QPushButton("Apply Deletes", searchSelectionGridLayoutWidget);
@@ -395,30 +389,6 @@ void QtGuiPractice::setUpQueryLayout()
 	searchSelectionGridLayout->addWidget(applyEditButton, 10, 0, 1, 1);
 	searchSelectionGridLayout->addWidget(applyDeleteButton, 10, 1, 1, 1);
 	searchSelectionGridLayout->addWidget(resetSearchButton, 10, 2, 1, 1);
-
-
-	//queryResultScrollArea = new QScrollArea(querySelectionGridLayoutWidget);
-	////queryResultScrollArea->setGeometry(QRect(0, 0, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT * 0.5));
-
-	//queryResultScrollArea = new QScrollArea(querySelectionGridLayoutWidget);
-	//queryResultScrollArea->setObjectName(QStringLiteral("queryResultScrollArea"));
-	//queryResultScrollArea->setMaximumSize(QSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT * 0.5));
-	//queryResultScrollArea->setWidgetResizable(true);
-	//queryResultScrollAreaContents = new QWidget();
-	//queryResultScrollAreaContents->setObjectName(QStringLiteral("queryResultScrollAreaContents"));
-	//// scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 323, 705));
-	//queryResultScrollAreaVerticalLayout = new QVBoxLayout(queryResultScrollAreaContents);
-	////queryResultScrollAreaVerticalLayout->setSpacing(4);
-	////queryResultScrollAreaVerticalLayout->setContentsMargins(5, 5, 5, 5);
-	//queryResultScrollAreaVerticalLayout->setObjectName(QStringLiteral("queryResultScrollAreaVerticalLayout"));
-	//queryResultScrollArea->setWidget(queryResultScrollAreaContents);
-
-
-
-	//queryVerticalLayout->addWidget(queryTitleLabel);
-	//queryVerticalLayout->addWidget(querySelectionGridLayoutWidget);
-	//queryVerticalLayout->addWidget(studentplot);
-
 }
 
 void QtGuiPractice::setUpMenu()
@@ -428,16 +398,20 @@ void QtGuiPractice::setUpMenu()
 	menuBar->setFont(*bodyFont);
 
 	menuFile = new QMenu(menuBar);
-	menuFile->setFont(*bodyFont);
+	menuFile->setTitle("File");
 
 	menuEdit = new QMenu(menuBar);
-	menuEdit->setFont(*bodyFont);
+	menuEdit->setTitle("Edit");
 
 	menuHelp = new QMenu(menuBar);
+	menuHelp->setTitle("Help");
 
 	menuInsert = new QMenu(menuBar);
+	menuInsert->setTitle("Insert");
 
 	menuTools = new QMenu(menuBar);
+	menuTools->setTitle("Tools");
+
 
 	this->setMenuBar(menuBar);
 	mainToolBar = new QToolBar(this);
@@ -447,7 +421,6 @@ void QtGuiPractice::setUpMenu()
 	statusBar = new QStatusBar(this);
 	this->setStatusBar(statusBar);
 
-	// set order of focus change when pressing "Tab" button
 	menuBar->addAction(menuFile->menuAction());
 	menuBar->addAction(menuEdit->menuAction());
 	menuBar->addAction(menuInsert->menuAction());
@@ -463,36 +436,6 @@ void QtGuiPractice::setUpMenu()
 	menuHelp->addAction(actionHelp);
 }
 
-void QtGuiPractice::setUiDisplayNames()
-{
-	this->setWindowTitle(QApplication::translate("this", "QtGuiPractice", Q_NULLPTR));
-	actionSave->setText(QApplication::translate("this", "Save", Q_NULLPTR));
-	actionExport->setText(QApplication::translate("this", "Export", Q_NULLPTR));
-	actionOpen->setText(QApplication::translate("this", "Open", Q_NULLPTR));
-	actionQuit->setText(QApplication::translate("this", "Quit", Q_NULLPTR));
-	actionCopy->setText(QApplication::translate("this", "Copy", Q_NULLPTR));
-	actionPaste->setText(QApplication::translate("this", "Paste", Q_NULLPTR));
-	actionCut->setText(QApplication::translate("this", "Cut", Q_NULLPTR));
-
-
-	actionSave->setShortcut(QApplication::translate("this", "Ctrl+S", Q_NULLPTR));
-	actionExport->setShortcut(QApplication::translate("this", "Ctrl+Shift+E", Q_NULLPTR));
-	actionOpen->setShortcut(QApplication::translate("this", "Ctrl+O", Q_NULLPTR));
-
-
-	selectDistrictLabel->setText(QApplication::translate("this", "Select District", Q_NULLPTR));
-	selectGradeLabel->setText(QApplication::translate("this", "Select Grade", Q_NULLPTR));
-	loadDataButton->setText(QApplication::translate("this", "Load Data", Q_NULLPTR));
-	tabWidget->setTabText(tabWidget->indexOf(addStudentTab), QApplication::translate("this", "Add New Student", Q_NULLPTR));
-	tabWidget->setTabText(tabWidget->indexOf(searchTab), QApplication::translate("this", "Search", Q_NULLPTR));
-	tabWidget->setTabText(tabWidget->indexOf(plotTab), QApplication::translate("this", "Plot", Q_NULLPTR));
-	menuFile->setTitle(QApplication::translate("this", "File", Q_NULLPTR));
-	menuEdit->setTitle(QApplication::translate("this", "Edit", Q_NULLPTR));
-	menuHelp->setTitle(QApplication::translate("this", "Help", Q_NULLPTR));
-	menuInsert->setTitle(QApplication::translate("this", "Insert", Q_NULLPTR));
-	menuTools->setTitle(QApplication::translate("this", "Tools", Q_NULLPTR));
-} // retranslateUi
-
 void QtGuiPractice::setUpUi()
 {
 	if (this->objectName().isEmpty())
@@ -500,30 +443,22 @@ void QtGuiPractice::setUpUi()
 	this->resize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
 	// this->setCursor(QCursor(Qt::OpenHandCursor));
 
-	// define main font 
-	/**bodyFont.setFamily(QStringLiteral("Segoe UI Semibold"));
-	*bodyFont.setBold(true);
-	*bodyFont.setWeight(75);*/
+	// define fonts
 	headerFont = new QFont("Segoe UI Semibold", 12);
 	bodyFont = new QFont("Segoe UI Semibold", 8, QFont::Bold);
-	
-
 
 	// configure central widget
 	centralWidget = new QWidget(this);
-
 	
 
 	// configure tab widget that will contain student and plot tab 
 	tabWidget = new QTabWidget(centralWidget);
 	tabWidget->setGeometry(QRect(0, 0, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT));
-	tabWidget->setMinimumSize(QSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT));
-	tabWidget->setMaximumSize(QSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT));
 	tabWidget->setFont(*bodyFont);
 
 	// configure query tab
 	searchTab = new QWidget();
-	setUpQueryLayout();
+	setUpSearchLayout();
 	tabWidget->addTab(searchTab, QString());
 
 	// configure student form tab
@@ -537,18 +472,17 @@ void QtGuiPractice::setUpUi()
 	setUpPlotLayout();
 	tabWidget->addTab(plotTab, QString());
 
-	
-
-	// remove ? 
 	this->setCentralWidget(centralWidget);
 	setActions();
 	setActionHandling();
 	setUpMenu();
-	setUiDisplayNames();
 
 	// start on student form tab
 	tabWidget->setCurrentIndex(0);
 
+	tabWidget->setTabText(tabWidget->indexOf(addStudentTab), "Add New Student");
+	tabWidget->setTabText(tabWidget->indexOf(searchTab), "Search");
+	tabWidget->setTabText(tabWidget->indexOf(plotTab), "Plot");
 
 	QMetaObject::connectSlotsByName(this);
 } // setupUi
@@ -589,57 +523,6 @@ void QtGuiPractice::setUpStudentDataManager()
 	QObject::connect(saveStudentPushButton, &QPushButton::clicked, [=]() {
 		studentDataManager.processSave();
 	});
-}
-
-void QtGuiPractice::initDb() {
-	HSSDb = QSqlDatabase::addDatabase("QSQLITE");
-
-	QStringList dbStringList = QSqlDatabase::connectionNames();
-
-	static const QString DEFAULT_HSS_DB_PathName = "./project_records.hss";
-
-	HSSDb.setDatabaseName(DEFAULT_HSS_DB_PathName);
-
-	if (!HSSDb.open()) {
-		QMessageBox::warning(nullptr, tr("WARNING"), QString("Can not open !"));
-	}
-
-	QSqlQuery	query;
-	QString		sql1 = "PRAGMA foreign_keys = ON;";
-	// QString		sql1 = "PRAGMA foreign_keys = OFF;";
-	if (!query.exec(sql1))
-		QMessageBox::critical(0, QObject::tr("Error: PRAGMA foreign_keys = ON;"), query.lastError().text());
-
-	// 1. projectInfo Table, create if it does not already exist
-	QString sql = "CREATE TABLE IF NOT EXISTS ProjectInfo ("
-		"ProjectName	VARCHAR (50)    NOT NULL PRIMARY KEY UNIQUE,"
-		"StudentName	VARCHAR (100)	NOT NULL,"
-		"Email			VARCHAR (50)	NOT NULL,"
-		"Version		VARCHAR (20)	NOT NULL,"
-		"CreatedTime	TEXT			NOT NULL,"
-		"Description	VARCHAR (100), "
-		"ModelType		VARCHAR (50) "
-		")";
-
-	if (!query.exec(sql))
-		QMessageBox::critical(0, QObject::tr("Error: Could not create ProjectInfo table."), query.lastError().text());
-
-}
-
-
-void QtGuiPractice::saveStudentData()
-{
-
-	//QString sql = QString("INSERT INTO ProjectInfo (ProjectName, StudentName, Email, Version, CreatedTime, Description, ModelType)"
-	//	"VALUES('%1', '%2', '%3', '%4', '%5', '%6', '%7')")
-	//	.arg(projectName)
-	//	.arg(studentName)
-	//	.arg(email)
-	//	.arg(version)
-	//	.arg(QDateTime::currentDateTime()
-	//		.toString("yyyy-MM-dd hh:mm"))
-	//	.arg(description)
-	//	.arg("2D");
 }
 
 void QtGuiPractice::actionSave_triggered()
