@@ -25,6 +25,9 @@
 #include <QTextStream>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <iostream>
+#include <map>
+#include<string>
 
 // sql
 #include <QtSql>
@@ -37,9 +40,12 @@
 #include <iostream>
 
 
-#define MAIN_WINDOW_WIDTH 1000
+#define MAIN_WINDOW_WIDTH 1150
 #define MAIN_WINDOW_HEIGHT 900
 #define TAB_WIDGET_HEIGHT 650
+
+
+
 
 class QtGuiPractice : public QMainWindow
 {
@@ -82,25 +88,48 @@ public:
 	QToolBar *mainToolBar;
 
 	// all widgets under student tab 
-	QWidget *studentFormTab;
+	QWidget *addStudentTab;
 
 	// layout widgets for student tab
-	QWidget *studentFormVerticalLayoutWidget;
-	QVBoxLayout *studentFormVerticalLayout;
-	QHBoxLayout *studentFormHorizontalLayout;
+	QWidget *addStudentGridLayoutWidget;
+	QGridLayout *addStudentGridLayout;
 
 
 	// student form widgets
-	QLabel *projectNameLabel;
-	QPlainTextEdit *projectNameText;
-	QLabel *studentNameLabel;
-	QTextEdit *studentNameText;
-	QLabel *emailLabel;
-	QTextEdit *emailText;
-	QLabel *versionLabel;
-	QTextEdit *versionText;
-	QLabel *descriptionLabel;
-	QTextEdit *descriptionText;
+	QLabel *addStudentTitleLabel;
+
+	QLabel *addStudentFirstNameLabel;
+	QTextEdit *addStudentFirstNameText;
+
+	QLabel *addStudentLastNameLabel;
+	QTextEdit *addStudentLastNameText;
+
+	QLabel *addStudentEmailLabel;
+	QTextEdit *addStudentEmailText;
+
+	QLabel *addStudentDistrictLabel;
+	QComboBox *addStudentDistrictComboBox;
+
+	QLabel *addStudentGradeLabel;
+	QComboBox *addStudentGradeComboBox;
+
+	QLabel *addStudentYearLabel;
+	QComboBox *addStudentYearComboBox;
+
+	QLabel *addStudentScore1Label;
+	QTextEdit *addStudentScore1Text;
+
+	QLabel *addStudentScore2Label;
+	QTextEdit *addStudentScore2Text;
+
+	QLabel *addStudentScore3Label;
+	QTextEdit *addStudentScore3Text;
+
+	QLabel *addStudentScoreFLabel;
+	QTextEdit *addStudentScoreFText;
+
+	QPushButton *saveStudentPushButton;
+	
 
 
 	// student form buttons
@@ -125,46 +154,51 @@ public:
 
 	QHBoxLayout *settingLabelHorizontalLayout;
 
-	QWidget *queryTab;
+	QWidget *searchTab;
 
 	//QScrollArea *queryResultScrollArea;
 	//QWidget *queryResultScrollAreaContents;
 	//QVBoxLayout *queryResultScrollAreaVerticalLayout;
 
-	QTableWidget *queryResultsTable;
+	QTableWidget *searchResultsTable;
 	QStringList *tableFields;
 
 	QWidget *queryVerticalLayoutWidget;
 	QVBoxLayout *queryVerticalLayout;
 
-	QWidget *querySelectionGridLayoutWidget;
-	QGridLayout *querySelectionGridLayout;
+	QWidget *searchSelectionGridLayoutWidget;
+	QGridLayout *searchSelectionGridLayout;
 
-	QLabel *queryTitleLabel;
-	QLabel *queryNameLabel;
-	QTextEdit *queryNameText;
+	QLabel *searchTitleLabel;
+	QLabel *searchNameLabel;
+	QTextEdit *searchNameText;
 
-	QLabel *queryScoreLabel;
-	QTextEdit *queryScoreText;
+	QLabel *searchScoreLabel;
+	QTextEdit *searchScoreText;
 
-	QGroupBox *queryScoreGroupBox;
-	QHBoxLayout *queryScoreHBox;
-	QRadioButton *queryScoreGreater;
-	QRadioButton *queryScoreLess;
+	QGroupBox *searchScoreGroupBox;
+	QHBoxLayout *searchScoreHBox;
+	QRadioButton *searchScoreGreater;
+	QRadioButton *searchScoreLess;
 
-	QLabel *queryDistrictLabel;
-	QComboBox *queryDistrictComboBox;
+	QLabel *searchDistrictLabel;
+	QComboBox *searchDistrictComboBox;
 
-	QLabel *queryGradeLabel;
-	QComboBox *queryGradeComboBox;
+	QLabel *searchGradeLabel;
+	QComboBox *searchGradeComboBox;
 
-	QLabel *queryYearLabel;
-	QComboBox *queryYearComboBox;
+	QLabel *searchYearLabel;
+	QComboBox *searchYearComboBox;
 
-	QLabel *querySortByLabel;
-	QComboBox *querySortByComboBox;
+	QLabel *searchSortByLabel;
+	QComboBox *searchSortByComboBox;
 
-	QPushButton *queryPushButton;
+	QGroupBox *searchSortMethodGroupBox;
+	QHBoxLayout *searchSortMethodHBox;
+	QRadioButton *searchSortMethodAsc;
+	QRadioButton *searchSortMethodDesc;
+
+	QPushButton *searchPushButton;
 
 	QPushButton *applyDeleteButton;
 	QPushButton *applyEditButton;
@@ -199,7 +233,6 @@ private:
 	// non-ui elements
 	QSqlDatabase HSSDb;
 	StudentDataManager studentDataManager;
-
 	
 
 private slots:

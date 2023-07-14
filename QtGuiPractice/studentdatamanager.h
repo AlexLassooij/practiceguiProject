@@ -2,6 +2,7 @@
 #include <qcustomplot.h>
 #include <iostream>
 #include <string>
+#include <map>
 #include <algorithm>
 
 #include <QFile>
@@ -11,6 +12,10 @@
 #include <QSqlDatabase>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QMap>
+
+#define EDIT_COL_NUM 10
+#define DEL_COL_NUM 11
 
 class QtGuiPractice;
 
@@ -42,7 +47,6 @@ private:
 	QVector<QString> districtList;
 	QVector<QString> gradeList;
 	QVector<QString> yearList;
-	QVector<QString> sortingOptions;
 	QVector<int> editsOutstanding;
 	QVector<int> deletesOutstanding;
 
@@ -54,22 +58,25 @@ private:
 
 	void executeQuery(QSqlQuery*, QString);
 	void setComboBoxes();
-	void setQueryComboBoxes();
 	void showData();
+
 	
 	QVector<StudentDataStruct> processQuery(QSqlQuery*);
+	static const QVector<QString> sortingOptions;
+	static const QMap<QString, QString> sortingMap;
 
 public:
 	static const QString DEFAULT_DB_PATH;
 	void setBackground();
 	void setDatabasePath(QString);
 	void setBarGraph();
-	void populateStudentData();
+	void acquireStudentData();
 	void getFilteredStudentData();
 	void setQueryResultArea(QVector<StudentDataStruct>*);
 	void initStudentDb(QString = DEFAULT_DB_PATH);
 	void handleItemClicked(QTableWidgetItem*);
 	void processEdits();
 	void processDeletes();
+	void processSave();
 	void resetSearch();
 };

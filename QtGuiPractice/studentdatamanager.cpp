@@ -2,6 +2,19 @@
 #include <QtGuiPractice.h>
 
 const QString StudentDataManager::DEFAULT_DB_PATH = QString("C:/Users/alexl/Documents/WorkLearn/Codebase/Training/Database/practice.db");
+const QVector<QString> StudentDataManager::sortingOptions = QVector<QString>{ "StudentID", "Name", "District", "Grade", "Year", "Score 1", "Score 2", "Score 3", "Score Final" };
+
+const QMap<QString, QString> StudentDataManager::sortingMap{
+	{ "StudentID" , "StudentID" },
+	{ "Name" , "[First Name] || \" \" || [Last Name]" },
+	{ "District" , "District" },
+	{ "Grade" , "Grade" },
+	{ "Year" , "Year" },
+	{ "Score 1" , "[Score 1]" },
+	{ "Score 2" , "[Score 2]" },
+	{ "Score 3" , "[Score 3]" },
+	{ "Score Final" , "[Score Final]" },
+};
 
 StudentDataManager::StudentDataManager(QtGuiPractice *ui, QCustomPlot *studentPlot)
 {
@@ -52,22 +65,12 @@ void StudentDataManager::initStudentDb(QString databasePath)
 
 }
 
-void StudentDataManager::populateStudentData()
+void StudentDataManager::acquireStudentData()
 {
 	QSqlQuery query;
 	// only need to navigate forwards
 	query.setForwardOnly(true);
-
-	//// retrieve table size
-	//executeQuery(&query, "SELECT COUNT(*) FROM studentinfo");
-
-	//query.next(); 
-
-	//this->tableSize = query.value(0).toInt();
-
-	//// initialize with size since table may be large (avoid allocating more memory later)
-	//this->allStudentData = QVector<StudentDataStruct>(this->tableSize);
-
+	
 	executeQuery(&query, "SELECT StudentID AS sid, [First Name] AS fname, [Last Name] AS lname, Email as email, District AS dist, Grade AS grd, Year AS yr,"
 						 " [Score 1] AS score1, [Score 2] AS score2, [Score 3] AS score3, [Score Final] AS scorefinal "
 						 "FROM studentinfo");
@@ -98,10 +101,7 @@ void StudentDataManager::populateStudentData()
 		yearList.append(query.value("yr").toString());
 	}
 
-	sortingOptions = QVector<QString>{ "name", "dist", "grd", "yr", "score1", "score2", "score3", "scorefinal" };
-
 	setComboBoxes();
-	setQueryComboBoxes();
 }
 
 void StudentDataManager::getFilteredStudentData()
@@ -113,30 +113,32 @@ void StudentDataManager::getFilteredStudentData()
 
 	QStringList conditions;
 
-	QString nameCondition = ui->queryNameText->toPlainText();
+	QString nameCondition = ui->searchNameText->toPlainText();
 	if (!nameCondition.isEmpty())
 		conditions.append(QString("LOWER(fname) || \" \" ||  LOWER(lname) LIKE LOWER('%%1%')").arg(nameCondition));
 
-	QString scoreConditionSign = ui->queryScoreGreater->isChecked() ? ">" : "<";
-	QString scoreConditionNum = ui->queryScoreText->toPlainText();
+	QString scoreConditionSign = ui->searchScoreGreater->isChecked() ? ">" : "<";
+	QString scoreConditionNum = ui->searchScoreText->toPlainText();
 	if (!scoreConditionNum.isEmpty())
 		conditions.append(QString("scorefinal %1 %2").arg(scoreConditionSign).arg(scoreConditionNum));
 
-	QString districtCondition = ui->queryDistrictComboBox->currentText();
+	QString districtCondition = ui->searchDistrictComboBox->currentText();
 	if ((QString::compare(districtCondition, ITEM_ANY) != 0))
 		conditions.append(QString("dist LIKE '%%1%'").arg(districtCondition));
 
-	QString gradeCondition = ui->queryGradeComboBox->currentText();
+	QString gradeCondition = ui->searchGradeComboBox->currentText();
 	if ((QString::compare(gradeCondition, ITEM_ANY) != 0))
 		conditions.append(QString("grd LIKE '%%1%'").arg(gradeCondition));
 
-	QString yearCondition = ui->queryYearComboBox->currentText();
+	QString yearCondition = ui->searchYearComboBox->currentText();
 	if ((QString::compare(yearCondition, ITEM_ANY) != 0))
 		conditions.append(QString("yr LIKE '%%1%'").arg(yearCondition));
 
-	QString sortingCondition = (QString::compare(ui->querySortByComboBox->currentText(), ITEM_ANY) != 0) ? 
-		QString("ORDER BY %1").arg(ui->querySortByComboBox->currentText()) 
+	QString sortMethod = ui->searchSortMethodAsc->isChecked() ? "ASC" : "DESC";
+	QString sortingCondition = (QString::compare(ui->searchSortByComboBox->currentText(), ITEM_ANY) != 0) ? 
+		QString("ORDER BY %1 %2").arg(sortingMap.value(ui->searchSortByComboBox->currentText())).arg(sortMethod)
 		: "";
+
 
 	queryConditions = conditions.join(" AND ");
 	if (!queryConditions.isEmpty())
@@ -166,16 +168,16 @@ void StudentDataManager::processEdits()
 	for (int i = 0; i < editsOutstanding.size(); i++)
 	{
 		int rowToEdit = editsOutstanding.at(i);
-		QString studentID = ui->queryResultsTable->item(rowToEdit, 0)->text();
-		QString name = ui->queryResultsTable->item(rowToEdit, 1)->text();
-		QString email = ui->queryResultsTable->item(rowToEdit, 2)->text();
-		QString district = ui->queryResultsTable->item(rowToEdit, 3)->text();
-		QString grade = ui->queryResultsTable->item(rowToEdit, 4)->text();
-		QString year = ui->queryResultsTable->item(rowToEdit, 5)->text();
-		QString score1 = ui->queryResultsTable->item(rowToEdit, 6)->text();
-		QString score2 = ui->queryResultsTable->item(rowToEdit, 7)->text();
-		QString score3 = ui->queryResultsTable->item(rowToEdit, 8)->text();
-		QString scorefinal = ui->queryResultsTable->item(rowToEdit, 9)->text();
+		QString studentID = ui->searchResultsTable->item(rowToEdit, 0)->text();
+		QString name = ui->searchResultsTable->item(rowToEdit, 1)->text();
+		QString email = ui->searchResultsTable->item(rowToEdit, 2)->text();
+		QString district = ui->searchResultsTable->item(rowToEdit, 3)->text();
+		QString grade = ui->searchResultsTable->item(rowToEdit, 4)->text();
+		QString year = ui->searchResultsTable->item(rowToEdit, 5)->text();
+		QString score1 = ui->searchResultsTable->item(rowToEdit, 6)->text();
+		QString score2 = ui->searchResultsTable->item(rowToEdit, 7)->text();
+		QString score3 = ui->searchResultsTable->item(rowToEdit, 8)->text();
+		QString scorefinal = ui->searchResultsTable->item(rowToEdit, 9)->text();
 
 		QString firstName = name.split(" ").at(0);
 		QString lastName = name.split(" ").at(1);
@@ -202,19 +204,73 @@ void StudentDataManager::processEdits()
 
 		qDebug() << updateQuery << endl;
 
-		// executeQuery(&query, updateQuery);
-		
+		executeQuery(&query, updateQuery);
+		// reset background colors
+		ui->searchResultsTable->item(rowToEdit, EDIT_COL_NUM)->setBackground(QColor(255, 255, 255, 255));
 	}
 
 	editsOutstanding.clear();
+	getFilteredStudentData();
 }
 
 
 void StudentDataManager::processDeletes()
 {
+	QSqlQuery query;
+	for (int i = 0; i < deletesOutstanding.size(); i++)
+	{
+		int rowToDelete = deletesOutstanding.at(i);
+		QString studentID = ui->searchResultsTable->item(rowToDelete, 0)->text();
+		
+		QString deleteQuery = QString(
+			"DELETE FROM studentinfo "
+			"WHERE StudentID = %1"
+		).arg(studentID);
 
+		qDebug() << deleteQuery << endl;
+
+		executeQuery(&query, deleteQuery);
+		// reset background colors
+		ui->searchResultsTable->item(rowToDelete, DEL_COL_NUM)->setBackground(QColor(255, 255, 255, 255));
+	}
+
+	deletesOutstanding.clear();
+	getFilteredStudentData();
 }
 
+void StudentDataManager::processSave()
+{
+	QString fName = ui->addStudentFirstNameText->toPlainText();
+	QString lName = ui->addStudentLastNameText->toPlainText();
+	QString email = ui->addStudentEmailText->toPlainText();
+
+	QString district = ui->addStudentDistrictComboBox->currentText();
+	QString grade = ui->addStudentGradeComboBox->currentText();
+	QString year = ui->addStudentYearComboBox->currentText();
+
+	QString score1 = ui->addStudentScore1Text->toPlainText();
+	QString score2 = ui->addStudentScore2Text->toPlainText();
+	QString score3 = ui->addStudentScore3Text->toPlainText();
+	QString scorefinal = ui->addStudentScoreFText->toPlainText();
+
+	QString insertQuery = QString(
+		"INSERT INTO studentinfo "
+		"([First Name], [Last Name], Email, District, Grade, Year, [Score 1], [Score 2], [Score 3], [Score Final]) "
+		"VALUES('%1', '%2', '%3', '%4', '%5', '%6', %7, %8, %9, %10)"
+	)
+		.arg(fName)
+		.arg(lName)
+		.arg(email)
+		.arg(district)
+		.arg(grade)
+		.arg(year)
+		.arg(score1)
+		.arg(score2)
+		.arg(score3)
+		.arg(scorefinal);
+
+	qDebug() << insertQuery << endl;
+}
 
 
 
@@ -222,27 +278,36 @@ void StudentDataManager::handleItemClicked(QTableWidgetItem *item)
 {
 	int itemRow = item->row();
 	int itemColumn = item->column();
-	QString studentID = ui->queryResultsTable->item(itemRow, 0)->text();
 
-	// TODO : handle corner case where item is selected for delete and edit 
-	if (itemColumn == 0)
+	// TODO : handle corner case where item is selected for delete and edit
+	// delete
+	if (itemColumn == DEL_COL_NUM)
 	{
-		item->setBackground(QColor(255, 0, 0, 127));
 		if (!deletesOutstanding.contains(itemRow))
 		{
+			item->setBackground(QColor(255, 0, 0, 127));
 			deletesOutstanding.append(itemRow);
+		} 
+		else 
+		{
+			item->setBackground(QColor(255, 255, 255, 255));
+			deletesOutstanding.remove(deletesOutstanding.indexOf(itemRow));
 		}
 	}
-		
-	else
+	// edit
+	else if (itemColumn == EDIT_COL_NUM)
 	{
-		item->setBackground(QColor(0, 0, 200, 127));
 		if (!editsOutstanding.contains(itemRow))
 		{
+			item->setBackground(QColor(0, 0, 200, 127));
 			editsOutstanding.append(itemRow);
 		}
+		else
+		{
+			item->setBackground(QColor(255, 255, 255, 255));
+			editsOutstanding.remove(editsOutstanding.indexOf(itemRow));
+		}
 	}
-		
 }
 
 
@@ -287,26 +352,30 @@ void StudentDataManager::setComboBoxes()
 	ui->gradeComboBox->addItem(ITEM_ANY);
 	ui->districtComboBox->addItems(districtList.toList());
 	ui->gradeComboBox->addItems(gradeList.toList());
+
+	ui->searchDistrictComboBox->addItem(ITEM_ANY);
+	ui->searchGradeComboBox->addItem(ITEM_ANY);
+	ui->searchYearComboBox->addItem(ITEM_ANY);
+	ui->searchSortByComboBox->addItem(ITEM_ANY);
+
+	ui->searchDistrictComboBox->addItems(districtList.toList());
+	ui->searchGradeComboBox->addItems(gradeList.toList());
+	ui->searchYearComboBox->addItems(yearList.toList());
+	ui->searchSortByComboBox->addItems(sortingOptions.toList());
+
+	ui->addStudentDistrictComboBox->addItems(districtList.toList());
+	ui->addStudentGradeComboBox->addItems(gradeList.toList());
+	for (int year = 2006; year < 2023+1 ; year++) 
+	{
+		ui->addStudentYearComboBox->addItem(QString::number(year));
+	}
 }
 
-void StudentDataManager::setQueryComboBoxes()
-{
-	ui->queryDistrictComboBox->addItem(ITEM_ANY);
-	ui->queryGradeComboBox->addItem(ITEM_ANY);
-	ui->queryYearComboBox->addItem(ITEM_ANY);
-	ui->querySortByComboBox->addItem(ITEM_ANY);
-
-	ui->queryDistrictComboBox->addItems(districtList.toList());
-	ui->queryGradeComboBox->addItems(gradeList.toList());
-	ui->queryYearComboBox->addItems(yearList.toList());
-	ui->querySortByComboBox->addItems(sortingOptions.toList());
-
-}
 
 void StudentDataManager::setQueryResultArea(QVector<StudentDataStruct> *results)
 {
-	ui->queryResultsTable->clearContents();
-	ui->queryResultsTable->setRowCount(results->size());
+	ui->searchResultsTable->clearContents();
+	ui->searchResultsTable->setRowCount(results->size());
 	for (int row = 0; row < results->size(); row++)
 	{
 		StudentDataStruct current = results->at(row);
@@ -323,18 +392,22 @@ void StudentDataManager::setQueryResultArea(QVector<StudentDataStruct> *results)
 		QTableWidgetItem *score2 = new QTableWidgetItem(QString::number(current.score2));
 		QTableWidgetItem *score3 = new QTableWidgetItem(QString::number(current.score3));
 		QTableWidgetItem *scorefinal = new QTableWidgetItem(QString::number(current.scorefinal));
+		QTableWidgetItem *edit = new QTableWidgetItem();
+		QTableWidgetItem *del = new QTableWidgetItem();
 
 
-		ui->queryResultsTable->setItem(row, 0, studentID);
-		ui->queryResultsTable->setItem(row, 1, name);
-		ui->queryResultsTable->setItem(row, 2, email);
-		ui->queryResultsTable->setItem(row, 3, district);
-		ui->queryResultsTable->setItem(row, 4, grade);
-		ui->queryResultsTable->setItem(row, 5, year);
-		ui->queryResultsTable->setItem(row, 6, score1);
-		ui->queryResultsTable->setItem(row, 7, score2);
-		ui->queryResultsTable->setItem(row, 8, score3);
-		ui->queryResultsTable->setItem(row, 9, scorefinal);
+		ui->searchResultsTable->setItem(row, 0, studentID);
+		ui->searchResultsTable->setItem(row, 1, name);
+		ui->searchResultsTable->setItem(row, 2, email);
+		ui->searchResultsTable->setItem(row, 3, district);
+		ui->searchResultsTable->setItem(row, 4, grade);
+		ui->searchResultsTable->setItem(row, 5, year);
+		ui->searchResultsTable->setItem(row, 6, score1);
+		ui->searchResultsTable->setItem(row, 7, score2);
+		ui->searchResultsTable->setItem(row, 8, score3);
+		ui->searchResultsTable->setItem(row, 9, scorefinal);
+		ui->searchResultsTable->setItem(row, 10, edit);
+		ui->searchResultsTable->setItem(row, 11, del);
 	}
 
 	/*for (int i = 0; i < results.size(); i++) {
